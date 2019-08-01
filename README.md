@@ -40,6 +40,58 @@ Create a new array called sortedPeople of type [`Human`] that is the people arra
 
 </br> </br>
 
+```
+class Human: CustomStringConvertible {
+
+    var description: String {
+        get {
+            return " My name is \(name) and I am \(age) years old"
+        }
+    }
+
+    var name: String
+    var age: Int
+
+    init(name: String, age: Int) {
+        self.name = name
+        self.age = age
+    }
+}
+extension Human: Equatable {
+    static func == (lhs: Human, rhs: Human) -> Bool {
+        return lhs.name == rhs.name && lhs.age == rhs.age
+    }
+}
+
+extension Human: Comparable {
+    static func < (lhs: Human, rhs: Human) -> Bool {
+        return lhs.age < rhs.age
+    }
+}
+
+let michelle = Human(name: "Michelle", age: 27)
+
+let steven = Human(name: "Steven", age: 28)
+
+print(michelle)
+print(steven)
+
+
+print(michelle == steven)
+
+let joe = Human(name: "Joe", age: 25)
+let ana = Human(name: "Ana", age: 30)
+let juan = Human(name: "Juan", age: 45)
+
+var arrayofPeople = [michelle,steven, joe, ana, juan]
+
+var sortedPeople = arrayofPeople.sorted{$0 < $1}
+
+print(sortedPeople)
+
+
+
+```
 
 ## Question 2
 
@@ -57,6 +109,42 @@ then call drive().
 
 </br> </br>
 
+```
+protocol Vehicle {
+    var numberOfWheels: Int {get set}
+
+    func drive()
+}
+
+struct Car: Vehicle {
+    var numberOfWheels: Int = 4
+
+    func drive() {
+        print("Vroom Vroom!")
+    }
+}
+
+let Honda = Car()
+
+print(Honda.numberOfWheels)
+Honda.drive()
+
+struct Bike: Vehicle {
+    var numberOfWheels: Int = 2
+
+    func drive() {
+        print("Begin pedaling!")
+    }
+
+}
+
+let specialized = Bike()
+
+print(specialized.numberOfWheels)
+specialized.drive()
+
+```
+
 
 ## Question 3
 // Given the below two protocols, create a struct for penguin(a flightless bird) and an eagle.
@@ -72,6 +160,21 @@ protocol Bird {
 protocol Flyable {
  var airspeedVelocity: Double { get }
 }
+
+struct Penguin: Bird {
+    var name: String
+
+    let canFly: Bool = false
+}
+
+struct Eagle: Bird, Flyable {
+    var name: String
+    let canFly: Bool = true
+
+    var airspeedVelocity: Double
+
+
+}
 ```
 
 </br> </br>
@@ -86,16 +189,30 @@ c. Create an instance of it named `bruceBanner`. Make it so that when the transf
 `.notHulk` to `.hulk.``
 
 ```swift
-enum SuperHero: Transformation {
-    // write code here.
+
+protocol Transformation {
+
+    mutating func transform()
 }
 
-// Example Output:
-var bruceBanner = SuperHero.notHulk
+enum SuperHero: Transformation {
 
-bruceBanner.transform() . // hulk
+    case notHulk
+    case hulk
 
-bruceBanner.transform()  // notHulk
+    mutating func transform() {
+        switch self {
+        case .notHulk:
+            self = .hulk
+        case .hulk:
+            self = .notHulk
+        }
+    }
+}
+
+var bruceBanner = SuperHero.hulk
+bruceBanner.transform()
+bruceBanner.transform()
 ```
 
 </br> </br>
@@ -116,6 +233,37 @@ e. `message` should return a unique message for each animal when talk is called.
 f. Put an instance of each of your classes in an array.
 
 g. Iterate over the array and have them print their `message` property
+
+```
+
+protocol Communication {
+    var message: String  { get }
+}
+
+class Cow: Communication {
+    var message: String {return "moo"}
+    var makesMilk = true
+}
+
+class Dog: Communication {
+    var message: String {return "woof"}
+}
+
+class Cat: Communication{
+    var message: String {return "meow"}
+}
+
+let array: [Communication] = [Cow(), Cat(), Dog()]
+
+for a in array {
+    print(a.message)
+
+    if let _ = a as? Cow { // this tries to see if cow exist
+    print("its a cow. holycow!")
+    }
+}
+
+```
 
 
 ## Question 6
