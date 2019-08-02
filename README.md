@@ -40,7 +40,7 @@ Create a new array called sortedPeople of type [`Human`] that is the people arra
 
 </br> </br>
 
-```
+``` swift
 class Human: CustomStringConvertible {
 
     var description: String {
@@ -109,7 +109,7 @@ then call drive().
 
 </br> </br>
 
-```
+``` swift
 protocol Vehicle {
     var numberOfWheels: Int {get set}
 
@@ -234,7 +234,7 @@ f. Put an instance of each of your classes in an array.
 
 g. Iterate over the array and have them print their `message` property
 
-```
+``` swift
 
 protocol Communication {
     var message: String  { get }
