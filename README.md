@@ -308,7 +308,7 @@ Now add a property called delegate to HeartRateReceiver that is of type HeartRat
 
 Finally, return to the line of code just after you initialized an instance of HeartRateReceiver. Initialize an instance of HeartRateViewController. Then, set the delegate property of your instance of HeartRateReceiver to be the instance of HeartRateViewController that you just created. Wait for your code to compile and observe what is printed to the console. Every time that currentHR gets set, you should see both a printout of the most recent heart rate, and the print statement stating that the heart rate was shown to the user.
 
-```
+``` swift
 protocol HeartRateReceiverDelegate  {
     func heartRateUpdated(to bpm: Int)
 }
