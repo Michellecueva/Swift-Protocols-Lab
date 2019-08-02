@@ -307,3 +307,53 @@ Now make HeartRateViewController adopt the protocol you've just created. Inside 
 Now add a property called delegate to HeartRateReceiver that is of type HeartRateReceiverDelegate?. In the didSet of currentHR where currentHR is successfully unwrapped, call heartRateUpdated(to bpm:) on the delegate property.
 
 Finally, return to the line of code just after you initialized an instance of HeartRateReceiver. Initialize an instance of HeartRateViewController. Then, set the delegate property of your instance of HeartRateReceiver to be the instance of HeartRateViewController that you just created. Wait for your code to compile and observe what is printed to the console. Every time that currentHR gets set, you should see both a printout of the most recent heart rate, and the print statement stating that the heart rate was shown to the user.
+
+```
+protocol HeartRateReceiverDelegate  {
+    func heartRateUpdated(to bpm: Int)
+}
+
+
+class HeartRateReceiver {
+    var currentHR: Int? {
+        didSet {
+            if let currentHR = currentHR {
+                print("The most recent heart rate reading is \(currentHR).")
+                delegate?.heartRateUpdated(to: currentHR)
+
+            } else {
+                print("Looks like we can't pick up a heart rate.")
+            }
+        }
+    }
+
+    var delegate: HeartRateReceiverDelegate?
+
+    func startHeartRateMonitoringExample() {
+        for _ in 1...10 {
+            let randomHR = 60 + Int.random(in: 0...15)
+            currentHR = randomHR
+            Thread.sleep(forTimeInterval: 2)
+        }
+    }
+}
+
+class HeartRateViewController: UIViewController {
+    var heartRateLabel: UILabel = UILabel()
+}
+extension HeartRateViewController: HeartRateReceiverDelegate {
+    func heartRateUpdated(to bpm: Int) {
+        self.heartRateLabel.text = "The user has been shown a heart rate of \(bpm)."
+    }
+
+}
+
+let curryHeartRate = HeartRateReceiver()
+let viewController1 = HeartRateViewController()
+
+curryHeartRate.delegate = viewController1
+
+curryHeartRate.startHeartRateMonitoringExample()
+```
+
+I was not sure what this question was asking for or what I was supposed to see
